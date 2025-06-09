@@ -10,14 +10,17 @@ import math
 from scipy.special import softmax
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image as keras_image
+from config import Config
+
+config = Config()
 
 app = Flask(__name__)
 CORS(app)
 
 # ====== โหลดโมเดล classification ======
-model_classification_path = 'model/resnet101_leaf_model_12_V0.keras'
+model_classification_path = config.MODEL_PATH
 model_classification = load_model(model_classification_path)
-print("✅ Loaded model classification")
+print(f"✅ Loaded model from {model_classification_path}")
 
 all_class_names = [
     'D. Alata', 'D. Bulbifera', 'D. Communis', 'D. Cirrhosa',
@@ -294,4 +297,4 @@ def health_check():
 
 # ====== Run (เฉพาะทดสอบ local) ======
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=config.DEBUG, port=config.PORT)

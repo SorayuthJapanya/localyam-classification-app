@@ -1,0 +1,25 @@
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+class Config:
+    # Flask settings
+    FLASK_APP = os.getenv('FLASK_APP', 'main.py')
+    FLASK_ENV = os.getenv('FLASK_ENV', 'production')
+    PORT = int(os.getenv('PORT', 5000))
+    DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
+
+    # Model settings
+    MODEL_PATH = os.getenv('MODEL_PATH', 'model/resnet101_leaf_model_12_V0.keras')
+
+    @classmethod
+    def get_config(cls):
+        return {
+            'flask_app': cls.FLASK_APP,
+            'flask_env': cls.FLASK_ENV,
+            'port': cls.PORT,
+            'debug': cls.DEBUG,
+            'model_path': cls.MODEL_PATH,
+        }
