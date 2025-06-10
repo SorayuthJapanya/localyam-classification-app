@@ -28,10 +28,6 @@ ENV/
 .env
 .env.local
 
-# Model files (if they're large)
-model/*.keras
-model/*.h5
-model/*.pkl
 
 # IDE
 .idea/

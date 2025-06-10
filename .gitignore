@@ -16,10 +16,6 @@ build/
 *.pyc
 __pycache__/
 
-# ML model files (if they're large)
-*.keras
-*.h5
-*.pkl
 
 # IDE and editor files
 .vscode/
