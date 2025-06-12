@@ -7,7 +7,7 @@ import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { LogOut, MenuIcon } from "lucide-react";
-import "./NavBarCss.css";
+import "./NavBarCSS.css";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
