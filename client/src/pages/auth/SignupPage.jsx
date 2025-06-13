@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SignupForm from "../../components/auth/SignupForm";
+import SignupForm from "../../components/auth/SignUpForm";
 
 const SignupPage = () => {
   const isAdmin = localStorage.getItem("userRole") === "ADMIN";

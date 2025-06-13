@@ -23,17 +23,15 @@ const PORT = process.env.PORT || 5001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-if (process.env.NODE_ENV === "development") {
-  app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
-} else {
-  app.use(
-    cors({
-      origin: process.env.CLIENT_URL,
-      credentials: true,
-      optionsSuccessStatus: 200,
-    })
-  );
-}
+app.use(
+  cors({
+    origin: ["http://localhost:8080", "http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(morgan("dev"));
 
