@@ -1,0 +1,69 @@
+version: '3.9'
+
+services:
+  # Model
+  ml_api:
+    build:
+      context: ./ml_api
+      dockerfile: Dockerfile
+    container_name: flask-server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./ml_api/model:/app/model
+    environment:
+      FLASK_APP: main.py
+      FLASK_ENV: production
+      PORT: 5000
+      MODEL_PATH: model/resnet101_leaf_model_12_V0.keras
+      DEBUG: 'false'
+    networks:
+      - localyam-app-network
+    restart: unless-stopped
+
+  # Server
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: express-server
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./server/uploads:/app/uploads
+    environment:
+      NODE_ENV: production
+      PORT: 5001
+      MONGO_URL: ${MONGO_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      CLIENT_URL: http://client
+      ML_URL: http://ml_api:5000
+    depends_on:
+      - ml_api
+    networks:
+      - localyam-app-network
+    restart: unless-stopped
+
+  # Client
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: react-client
+    ports:
+      - "8080:80"
+    environment:
+      - VITE_AXIOS_SERVER_URL=http://server:5001/api/v1
+      - VITE_SERVER_URL=http://server:5001
+      - VITE_AXIOS_MODEL_URL=http://ml_api:5000
+    depends_on:
+      - server
+    networks:
+      - localyam-app-network
+    restart: unless-stopped
+
+
+# Networks
+networks:
+  localyam-app-network:
+    driver: bridge
