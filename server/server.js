@@ -23,14 +23,20 @@ const PORT = process.env.PORT || 5001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: ["http://localhost:8080", "http://localhost:3000", "http://192.168.0.118:8080"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
+
+const corsOptions = {
+  origin: [
+    "http://localhost:8080",
+    "http://localhost:3000",
+    "http://192.168.0.118:8080",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  exposedHeaders: ["Set-Cookie"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(morgan("dev"));

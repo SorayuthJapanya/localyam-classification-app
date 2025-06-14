@@ -184,8 +184,9 @@ exports.login = async (req, res) => {
     await res.cookie("jwt-yamleaves", token, {
       httpOnly: true,
       maxAge: 1 * 24 * 60 * 60 * 1000,
-      sameSite: "none",
-      secure: true,
+      sameSite: "lax",
+      secure: false,
+      path: "/",
     });
 
     const { password: _, ...userWithoutPassword } = user._doc;
