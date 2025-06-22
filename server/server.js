@@ -4,6 +4,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const morgan = require("morgan");
+const helmet = require("helmet");
 
 // Import
 const { connectDB } = require("./config/connectDB");
@@ -23,6 +24,8 @@ const PORT = process.env.PORT || 5001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(helmet());
+app.use(morgan("dev"));
 
 const corsOptions = {
   origin: [
@@ -39,7 +42,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(morgan("dev"));
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
