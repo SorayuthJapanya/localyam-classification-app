@@ -1,0 +1,81 @@
+
+services:
+
+  gateway:
+    image: nginx:1-alpine
+    ports:
+      - 8080:80
+    volumes:
+      - ./client/nginx/nginx.dev.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - ml_api
+      - server
+      - client
+    networks:
+      - localyam-app-network
+  # Model
+  ml_api:
+    build:  
+      context: ./ml_api
+      dockerfile: Dockerfile.dev
+    container_name: flask-server
+    volumes:
+      - ./ml_api/model:/app/model
+    environment:
+      FLASK_APP: main.py
+      FLASK_ENV: development
+      PORT: 5000
+      MODEL_PATH: model/resnet101_leaf_model_12_V0.keras
+      DEBUG: True
+    networks:
+      - localyam-app-network
+    restart: unless-stopped
+
+  # Server
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    container_name: express-server
+    volumes:
+      - ./server/uploads:/app/uploads
+      - ./server:/app
+      - /app/node_modules
+    environment:
+      NODE_ENV: development
+      PORT: 5001
+      MONGO_URL:  mongodb+srv://sorayuthjaapanya:ErBzp9NDvv0sWH7t@cluster0.zp0dzoy.mongodb.net/yamleaves_db?retryWrites=true&w=majority&appName=Cluster0
+      JWT_SECRET: mysupersecret
+      CLIENT_URL: http://client
+      ML_URL: http://ml_api:5000
+      CHOKIDAR_USEPOLLING: true
+      WATCHPACK_POLLING: true
+    depends_on:
+      - ml_api
+    networks:
+      - localyam-app-network
+    restart: unless-stopped
+
+  # Client
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    volumes: 
+      - ./client:/app
+      - /app/node_modules
+    container_name: react-client
+    environment:
+      VITE_AXIOS_SERVER_URL: /api/v1
+      VITE_SERVER_URL: /api/v1
+    depends_on:
+      - server
+    networks:
+      - localyam-app-network
+    restart: unless-stopped
+
+
+# Networks
+networks:
+  localyam-app-network:
+    driver: bridge

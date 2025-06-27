@@ -29,9 +29,9 @@ app.use(morgan("dev"));
 
 const corsOptions = {
   origin: [
-    "http://localhost:8080",
+    "http://localhost:8000",
     "http://localhost:3000",
-    "http://192.168.0.118:8080",
+    "http://192.168.0.118:8000",
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -41,7 +41,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/v1/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
