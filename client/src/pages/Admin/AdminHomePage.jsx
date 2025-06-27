@@ -27,7 +27,7 @@ const AdminHomePage = () => {
   const [speciesData, setSpeciesData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
   const [historyStatData, setHistoryStatData] = useState([]);
-  const [selectedRange, setSelectedRange] = useState("day");
+  const [selectedRange, setSelectedRange] = useState("week");
 
   // -------------------- Chart Data Start -----------------------
 
