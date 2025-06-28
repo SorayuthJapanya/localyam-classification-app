@@ -27,7 +27,7 @@ const ManageSpeciesPage = () => {
       { local_Name: selectedLocalName, currentPage, role },
     ],
     queryFn: async () => {
-      const res = await axiosInstance.get("/species/all", {
+      const res = await axiosInstance.get("/species/allbyquery", {
         params: {
           local_Name: selectedLocalName,
           page: currentPage,

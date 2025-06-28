@@ -26,7 +26,7 @@ const LocalNameSearch = ({ onLocalNameSelected }) => {
   const { data: localNames = [], isLoading } = useQuery({
     queryKey: ["searchLocalName", debouncedValue],
     queryFn: async () => {
-      const res = await axiosInstance.get("/species/all", {
+      const res = await axiosInstance.get("/species/allbyquery", {
         params: {
           local_Name: debouncedValue,
         },

@@ -82,7 +82,7 @@ const AdminHomePage = () => {
   } = useQuery({
     queryKey: ["getAllSpecies"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/species/all");
+      const res = await axiosInstance.get("/species/allbyquery");
       return res.data;
     },
     onError: (error) => {

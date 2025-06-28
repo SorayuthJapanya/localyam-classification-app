@@ -65,7 +65,7 @@ exports.addSpecie = async (req, res) => {
   }
 };
 
-exports.getAllSpecies = async (req, res) => {
+exports.getAllSpeciesByQuery = async (req, res) => {
   try {
     const { local_Name = "", role = "" } = req.query;
     const page = parseInt(req.query.page) || 1;
@@ -83,7 +83,6 @@ exports.getAllSpecies = async (req, res) => {
       limit = 5;
     }
     const skip = (page - 1) * limit;
-
     const species = await Species.find(query)
       .skip(skip)
       .limit(limit)
@@ -94,6 +93,19 @@ exports.getAllSpecies = async (req, res) => {
       totalPages: Math.ceil(totalSpecies / limit),
       currentPage: page,
       limit,
+      species,
+    });
+  } catch (error) {
+    console.log("Error in getAllSpecies controller", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+exports.getAllSpecies = async (req, res) => {
+  try {
+    const species = await Species.find().sort({ createdAt: -1 });
+
+    res.status(200).json({
       species,
     });
   } catch (error) {

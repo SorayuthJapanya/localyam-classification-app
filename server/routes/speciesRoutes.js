@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   addSpecie,
   getAllSpecies,
+  getAllSpeciesByQuery,
   getOneSpecie,
   updateSpecie,
   deleteSpecie,
@@ -32,10 +33,10 @@ router.post(
   addSpecie
 );
 router.get("/all", getAllSpecies);
+router.get("/allbyquery", getAllSpeciesByQuery);
 
 // Search Species
 router.get("/search", searchSpecies);
-
 
 router.get("/:_id", protectRoute, getOneSpecie);
 router.put(
@@ -46,6 +47,5 @@ router.put(
   updateSpecie
 );
 router.delete("/:_id", protectRoute, adminOnly, deleteSpecie);
-
 
 module.exports = router;

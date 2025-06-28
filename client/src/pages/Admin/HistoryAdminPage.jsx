@@ -60,6 +60,8 @@ const HistoryAdminPage = () => {
     },
   });
 
+  console.log(getFilterSpecies)
+
   const { mutate: searchScientificName } = useMutation({
     mutationFn: async (scientificName) => {
       const res = await axiosInstance.get("/species/search", {

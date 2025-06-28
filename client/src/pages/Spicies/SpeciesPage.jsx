@@ -19,7 +19,7 @@ const SpeciesPage = () => {
     queryKey: ["getAllSpecies", selectedLocalName, role],
     enabled: true,
     queryFn: async () => {
-      const res = await axiosInstance.get("/species/all", {
+      const res = await axiosInstance.get("/species/allbyquery", {
         params: {
           local_Name: selectedLocalName,
           role: role,
