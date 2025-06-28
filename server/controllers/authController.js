@@ -185,7 +185,9 @@ exports.login = async (req, res) => {
       httpOnly: true,
       maxAge: 1 * 24 * 60 * 60 * 1000,
       sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development",
+      secure:
+        process.env.NODE_ENV !== "development" &&
+        process.env.DISABLE_HTTPS !== "true",
     });
 
     const { password: _, ...userWithoutPassword } = user._doc;
@@ -247,8 +249,8 @@ exports.getAllClient = async (req, res) => {
       .sort({ createdAt: -1 });
 
     const totalUsers = await User.countDocuments();
-    const totalRoleUser = await User.countDocuments({role: "USER"})
-    const totalRoleAdmin = await User.countDocuments({role: "ADMIN"})
+    const totalRoleUser = await User.countDocuments({ role: "USER" });
+    const totalRoleAdmin = await User.countDocuments({ role: "ADMIN" });
 
     const response = {
       totalUsers,
@@ -299,7 +301,7 @@ exports.updateUser = async (req, res) => {
       if (digits.length === 10) {
         user.phone_number = digits.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
       } else {
-        user.phone_number = phone_number; 
+        user.phone_number = phone_number;
       }
     }
 

@@ -32,6 +32,7 @@ const corsOptions = {
     "http://localhost:8000",
     "http://localhost:3000",
     "http://192.168.0.118:8000",
+    process.env.DOMAIN_URL,
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
