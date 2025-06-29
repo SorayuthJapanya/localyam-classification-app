@@ -108,6 +108,11 @@ This project is licensed under the MIT License.
    mv .env.example .env.prod
    ```
 
+   **Generate a Random JWT Secret Key**
+   ```sh
+   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+   ```
+
    **Create ENV file at Client folder**
    ```sh
    cd client
