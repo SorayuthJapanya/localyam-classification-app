@@ -6,6 +6,8 @@ services:
       context: ./ml_api
       dockerfile: Dockerfile.prod
     container_name: flask-server
+    volumes:
+      - ./ml_api/model:/app/model
     env_file:
       - .env.prod
     networks:
