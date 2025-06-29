@@ -44,34 +44,14 @@ app.use(cors(corsOptions));
 
 app.use("/api/v1/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Routes
-app.get("/api/v1/cookies", function (req, res) {
-  // Check if cookies exist
-  if (req.cookies && Object.keys(req.cookies).length > 0) {
-    res.json({
-      message: "Cookies found",
-      cookies: req.cookies,
-      signedCookies: req.signedCookies,
-    });
-  } else {
-    res.json({
-      message: "No cookies found",
-      cookies: {},
-      signedCookies: {},
-    });
-  }
-});
-
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1", uploadRoutes);
 app.use("/api/v1/species", speciesRoutes);
 app.use("/api/v1/history", historyRoutes);
 
 // Server React
-app.setTimeout(3600000); 
 
 app.listen(PORT, async () => {
   await connectDB();
   console.log("Server is running on port:", PORT);
 });
-
