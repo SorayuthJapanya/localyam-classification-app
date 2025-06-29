@@ -87,13 +87,39 @@ A full-stack web application for classifying local yam varieties from leaf image
 
 This project is licensed under the MIT License.
 
-## After git clone you must be
 
+### Manual Server Production
+
+   **Clone Repo**
+   ```sh
+   git clone https://github.com/SorayuthJapanya/localyam-classification-app.git
+   ```
+
+   **Pull GIT LFS**
    ```sh
    sudo apt update
    sudo apt install git-lfs -y
    git lfs install
    git lfs pull
+   ```
+
+   **Rename & Edit ENV File**
+   ```sh
+   mv .env.example .env.prod
+   ```
+
+   **Create ENV file at Client folder**
+   ```sh
+   cd client
+   nano .env
+   # VITE_AXIOS_SERVER_URL= proxy location server
+   # VITE_SERVER_URL= proxy location server
+   ```
+
+   **Docker container up at root path**
+   ```sh
+   sudo docker compose -f docker-compose.prod.yml up -d --build
+   sudo docker ps 
    ```
 
 ---
