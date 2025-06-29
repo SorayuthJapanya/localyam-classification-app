@@ -186,8 +186,8 @@ exports.login = async (req, res) => {
       maxAge: 1 * 24 * 60 * 60 * 1000,
       sameSite: "strict",
       secure:
-        process.env.NODE_ENV !== "development" &&
-        process.env.DISABLE_HTTPS !== "true",
+        process.env.NODE_ENV === "production" &&
+        process.env.ALLOWED_HTTPS === "true",
     });
 
     const { password: _, ...userWithoutPassword } = user._doc;
