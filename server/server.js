@@ -68,10 +68,10 @@ app.use("/api/v1/species", speciesRoutes);
 app.use("/api/v1/history", historyRoutes);
 
 // Server React
+app.setTimeout(3600000); 
 
 app.listen(PORT, async () => {
   await connectDB();
   console.log("Server is running on port:", PORT);
 });
 
-server.setTimeout(3600000); 
