@@ -12,6 +12,12 @@ class Config:
 
     @classmethod
     def get_config(cls):
+        # Debug print statements to help trace values
+        print(f"FLASK_APP: {cls.FLASK_APP}")
+        print(f"FLASK_ENV: {cls.FLASK_ENV}")
+        print(f"PORT: {cls.PORT}")
+        print(f"DEBUG: {cls.DEBUG}")
+        print(f"MODEL_PATH: {cls.MODEL_PATH}")
         return {
             'flask_app': cls.FLASK_APP,
             'flask_env': cls.FLASK_ENV,
