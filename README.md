@@ -36,15 +36,18 @@ A full-stack web application for classifying local yam varieties from leaf image
 ### Development Setup
 
 1. **Clone the repository:**
+
    ```sh
    git clone https://github.com/your-org/yam-classification.git
    cd yam-classification
    ```
 
 2. **Configure environment variables:**
+
    - Copy `.env.example` to `.env` and fill in required values for each service.
 
 3. **Start with Docker Compose:**
+
    ```sh
    docker-compose -f docker-compose.dev.yml up --build
    ```
@@ -56,19 +59,19 @@ A full-stack web application for classifying local yam varieties from leaf image
 
 ### Manual Local Development
 
-- **Frontend:**  
+- **Frontend:**
   ```sh
   cd client
   npm install
   npm run dev
   ```
-- **Backend:**  
+- **Backend:**
   ```sh
   cd server
   npm install
   npm run dev
   ```
-- **ML API:**  
+- **ML API:**
   ```sh
   cd ml_api
   pip install -r requirements.txt
@@ -87,45 +90,79 @@ A full-stack web application for classifying local yam varieties from leaf image
 
 This project is licensed under the MIT License.
 
-
 ### Manual Server Production
 
-   **Clone Repo**
-   ```sh
-   git clone https://github.com/SorayuthJapanya/localyam-classification-app.git
-   ```
+**Install Docker Engine on Ubuntu**
 
-   **Pull GIT LFS**
-   ```sh
-   sudo apt update
-   sudo apt install git-lfs -y
-   git lfs install
-   git lfs pull
-   ```
+- _Set up Docker's apt repository._
+  `sh
+  sudo apt-get update
+  sudo apt-get install ca-certificates curl
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-   **Rename & Edit ENV File**
-   ```sh
-   mv .env.example .env.prod
-   ```
+  echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+   $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get update
+  `
 
-   **Generate a Random JWT Secret Key**
-   ```sh
-   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-   ```
+- _Install the Docker packages._
+  `sh
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+`
 
-   **Create ENV file at Client folder**
-   ```sh
-   cd client
-   nano .env
-   # VITE_AXIOS_SERVER_URL= proxy location server
-   # VITE_SERVER_URL= proxy location server
-   ```
+- _Docker Verison_
+  `sh
+sudo docker -v
+`
 
-   **Docker container up at root path**
-   ```sh
-   sudo docker compose -f docker-compose.prod.yml up -d --build
-   sudo docker ps 
-   ```
+**Clone Repo**
+
+```sh
+git clone https://github.com/SorayuthJapanya/localyam-classification-app.git
+```
+
+**Pull GIT LFS**
+
+```sh
+sudo apt update
+sudo apt install git-lfs -y
+git lfs install
+
+cd localyam-classification-app
+git lfs pull
+```
+
+**Rename & Edit ENV File**
+
+```sh
+mv .env.example .env.prod
+```
+
+**Generate a Random JWT Secret Key**
+
+```sh
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+**Create ENV file at Client folder**
+
+```sh
+cd client
+nano .env
+# VITE_AXIOS_SERVER_URL= proxy location server
+# VITE_SERVER_URL= proxy location server
+```
+
+**Docker container up at root path**
+
+```sh
+sudo docker compose -f docker-compose.prod.yml up -d --build
+sudo docker ps
+```
 
 ---
 
