@@ -167,6 +167,7 @@ def predict():
 
         # ===== EXIF Info =====
         exif = get_exif_data(image_nocenvert)
+        print("EXIF Data:", exif)
         datetime_taken = (
             exif.get('DateTimeOriginal') or
             exif.get('DateTime') or
