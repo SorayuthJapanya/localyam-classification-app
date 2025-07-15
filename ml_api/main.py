@@ -84,12 +84,13 @@ def get_exif_data(image_pil):
     exif_data = {}
     try:
         info = image_pil._getexif()
+        print("raw EXIF:", info)  # เพิ่มตรงนี้เพื่อ debug
         if info:
             for tag, value in info.items():
                 tag_name = ExifTags.TAGS.get(tag, tag)
                 exif_data[tag_name] = value
-    except:
-        pass
+    except Exception as e:
+        print("EXIF error:", e)  # แจ้งปัญหาชัดเจน
     return exif_data
 
 
