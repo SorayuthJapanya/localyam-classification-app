@@ -95,7 +95,7 @@ This project is licensed under the MIT License.
 **Install Docker Engine on Ubuntu**
 
 - _Set up Docker's apt repository._
-  `sh
+  ```sh
   sudo apt-get update
   sudo apt-get install ca-certificates curl
   sudo install -m 0755 -d /etc/apt/keyrings
@@ -107,17 +107,17 @@ This project is licensed under the MIT License.
    $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt-get update
-  `
+  ```
 
 - _Install the Docker packages._
-  `sh
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-`
+  ```sh
+   sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+   ```
 
 - _Docker Verison_
-  `sh
-sudo docker -v
-`
+  ```sh
+   sudo docker -v
+   ```
 
 **Clone Repo**
 
