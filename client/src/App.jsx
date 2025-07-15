@@ -123,7 +123,7 @@ const App = () => {
                   authUser.role === "ADMIN" ? (
                     <Navigate to="/admin" />
                   ) : (
-                    <Navigate to="/home" />
+                    <Navigate to="/" />
                   )
                 ) : (
                   <LoginPage />

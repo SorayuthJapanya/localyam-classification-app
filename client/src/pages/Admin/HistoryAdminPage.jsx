@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../../lib/axios";
-import { useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 import toast from "react-hot-toast";
 import UserSearch from "../../components/search/UserSearch";
 import Predictedfilter from "../../components/filter/Predictedfilter";
-import { CheckCircle, Eye, MapPin, X } from "lucide-react";
+import { Eye, MapPin, X } from "lucide-react";
 
 const HistoryAdminPage = () => {
   const [allClassifier, setAllClassifier] = useState([]);
@@ -24,60 +23,35 @@ const HistoryAdminPage = () => {
   const [isOpenInfo, setIsOpenInfo] = useState(false);
   const [selectedClassifier, setSelectedClassifier] = useState(null);
 
-  const navigate = useNavigate();
+  const { data: getAllClassifier } = useQuery({
+    queryKey: [
+      "getAllClassifier",
+      { name: selectedUser, species: filterSpecies.toString(), currentPage },
+    ],
+    queryFn: async () => {
+      const res = await axiosInstance.get("/history/get-history", {
+        params: {
+          name: selectedUser,
+          species: filterSpecies.toString(),
+          page: currentPage,
+        },
+      });
+      return res.data;
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "Failed to get histories");
+    },
+  });
 
-  const { data: getAllClassifier, isLoading: getAllClassifierLoading } =
-    useQuery({
-      queryKey: [
-        "getAllClassifier",
-        { name: selectedUser, species: filterSpecies.toString(), currentPage },
-      ],
-      queryFn: async () => {
-        const res = await axiosInstance.get("/history/get-history", {
-          params: {
-            name: selectedUser,
-            species: filterSpecies.toString(),
-            page: currentPage,
-          },
-        });
-        return res.data;
-      },
-      onError: (error) => {
-        toast.error(error.response?.data?.message || "Failed to get histories");
-      },
-    });
-
-  const { data: getFilterSpecies, isLoading: isGetFilterLoading } = useQuery({
+  const { data: getFilterSpecies } = useQuery({
     queryKey: ["getAllFilter"],
     queryFn: async () => {
       const res = await axiosInstance.get("/species/all");
-      setFilterData(res.data.species);
       return res.data;
     },
     onError: (error) => {
       console.log(error);
       toast.error(error.response?.data?.message);
-    },
-  });
-
-  console.log(getFilterSpecies)
-
-  const { mutate: searchScientificName } = useMutation({
-    mutationFn: async (scientificName) => {
-      const res = await axiosInstance.get("/species/search", {
-        params: {
-          scientific_Name: scientificName,
-        },
-      });
-      return res.data;
-    },
-    onSuccess: (data) => {
-      if (Array.isArray(data) && data.length > 0) {
-        const id = data[0]._id;
-        navigate(`/specie/${id}`);
-      } else {
-        alert("ไม่พบข้อมูล");
-      }
     },
   });
 
@@ -110,10 +84,6 @@ const HistoryAdminPage = () => {
     setCurrentPage(page);
   };
 
-  const handleViewData = (scientificName) => {
-    searchScientificName(scientificName);
-  };
-
   const handleOpenMap = (latitude, longitude) => {
     const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
     window.open(url, "_blank");
@@ -133,6 +103,12 @@ const HistoryAdminPage = () => {
   };
 
   useEffect(() => {
+    if (getFilterSpecies) {
+      setFilterData(getFilterSpecies.species);
+    }
+  }, [getFilterSpecies]);
+
+  useEffect(() => {
     if (getAllClassifier?.histories) {
       setAllClassifier(getAllClassifier.histories);
       setClassifier(getAllClassifier);
@@ -149,7 +125,7 @@ const HistoryAdminPage = () => {
   return (
     <div className="min-h-160 p-6 flex flex-col justify-center items-center">
       <header className="text-center flex flex-col gap-2 mt-2">
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl  font-bold text-indigo-800">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl  font-bold text-amber-600">
           Species Classifier
         </h1>
         <p className="text-gray-600">View and export data classifier</p>
@@ -396,7 +372,7 @@ const HistoryAdminPage = () => {
           {showFilterSidebar && (
             <div className="bg-white shadow-md rounded-lg p-6 h-content w-60">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg text-indigo-800 font-semibold">
+                <h2 className="text-lg text-amber-600 font-semibold">
                   Filter By Species
                 </h2>
                 <button
@@ -491,7 +467,7 @@ const HistoryAdminPage = () => {
               <div className="bg-white rounded-lg shadow-lg w-full max-w-6xl max-h-[90vh] overflow-y-auto flex flex-col">
                 {/* Header Section */}
                 <div className="sticky top-0 bg-white z-10 p-6 border-b flex justify-between items-center">
-                  <h2 className="text-2xl md:text-3xl font-bold text-indigo-800">
+                  <h2 className="text-2xl md:text-3xl font-bold text-amber-600">
                     Classification Details
                   </h2>
                   <button
@@ -578,7 +554,7 @@ const HistoryAdminPage = () => {
                                     selectedClassifier.longitude
                                   )
                                 }
-                                className="flex items-center gap-2 bg-blue-50 text-blue-600 hover:bg-blue-100 px-4 py-2 rounded-lg transition-all duraiton-200 cursor-pointer cursor-pointer"
+                                className="flex items-center gap-2 bg-blue-50 text-blue-600 hover:bg-blue-100 px-4 py-2 rounded-lg transition-all duraiton-200 cursor-pointer "
                               >
                                 <MapPin className="w-5 h-5" />
                                 Google Maps
@@ -592,7 +568,7 @@ const HistoryAdminPage = () => {
                     <div className="space-y-6">
                       {/* Best Prediction Card */}
                       <div className="bg-indigo-50 p-5 rounded-lg border border-indigo-100">
-                        <h3 className="font-semibold text-lg text-indigo-800 mb-3">
+                        <h3 className="font-semibold text-lg text-amber-600 mb-3">
                           Best Prediction
                         </h3>
                         <div className="flex items-center justify-between">
@@ -644,7 +620,7 @@ const HistoryAdminPage = () => {
                     <div className="space-y-6">
                       {/* Best Prediction Card */}
                       <div className="bg-indigo-50 p-5 rounded-lg border border-indigo-100">
-                        <h3 className="font-semibold text-lg text-indigo-800 mb-3">
+                        <h3 className="font-semibold text-lg text-amber-600 mb-3">
                           Best Filter Prediction
                         </h3>
                         <div className="flex items-center justify-between">

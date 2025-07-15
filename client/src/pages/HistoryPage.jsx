@@ -10,9 +10,12 @@ import L from "leaflet";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconRetinaUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
 const HistoryPage = () => {
@@ -30,7 +33,6 @@ const HistoryPage = () => {
 
   const {
     data: authHistory,
-    isLoading: isHistoryLoading,
     isRefetching: isHistoryRefetching,
     error: historiesError,
     refetch,
@@ -281,7 +283,7 @@ const HistoryPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-12">
       <header className="text-center mb-6 space-y-2">
-        <h1 className="text-5xl font-bold text-indigo-800">Your History</h1>
+        <h1 className="text-5xl font-bold text-amber-600">Your History</h1>
         <p className="text-gray-600">View your classification history</p>
       </header>
 
@@ -323,33 +325,35 @@ const HistoryPage = () => {
                 </div>
 
                 {/* Info Section */}
-                <div className="flex flex-row md:flex-col px-6 text-center md:text-left justify-center">
+                <div className="flex flex-col px-6 text-center md:text-left justify-center">
                   {/* Top Info */}
-                  <div className="mb-4 border-r md:border-r-white md:border-b border-gray-600 pb-4 pr-2 md:pr-0">
-                    <h2 className="text-2xl font-semibold text-indigo-800">
+                  <div className="mb-4 md:border-r md:border-r-white border-b border-gray-600 pb-4 pr-2 md:pr-0">
+                    <h2 className="text-2xl font-semibold text-amber-600">
                       Best Prediction: {history.bestpredicted}
                     </h2>
                     <div className="space-y-2">
-                      <p className="text-indigo-800 text-lg font-semibold ">
+                      <p className="text-amber-600 text-lg font-semibold ">
                         Confidence Score: {history.confidenceScore}%
                       </p>
                       <p className="text-gray-800 text-lg font-semibold text-center md:text-left">
                         All Predictions (Top 5 Score)
-                        <div className="pl-2 gap-y-1">
-                          {history.top5
-                            .sort((a, b) => b.probability - a.probability)
-                            .slice(0, 10)
-                            .map((item, index) => (
-                              <div
-                                key={index}
-                                className="flex items-start text-gray-500 text-base"
-                              >
-                                <span className="mr-1">•</span>
-                                <span className="break-words">
-                                  {item.class} {item.probability}%
-                                </span>
-                              </div>
-                            ))}
+                        <div className="my-4 md:my-2 flex justify-center md:justify-start">
+                          <div className="">
+                            {history.top5
+                              .sort((a, b) => b.probability - a.probability)
+                              .slice(0, 10)
+                              .map((item, index) => (
+                                <div
+                                  key={index}
+                                  className="flex items-start text-gray-500 text-base"
+                                >
+                                  <span className="mr-1">•</span>
+                                  <span className="break-words">
+                                    {item.class} {item.probability}%
+                                  </span>
+                                </div>
+                              ))}
+                          </div>
                         </div>
                       </p>
                       <p className="text-gray-800 text-base font-semibold">
@@ -376,7 +380,7 @@ const HistoryPage = () => {
                   </div>
                   {/* Bottom Info */}
                   <div>
-                    <h2 className="text-2xl font-semibold text-indigo-800 mb-2">
+                    <h2 className="text-2xl font-semibold text-amber-500 mb-2">
                       Best filter Prediction: {history.bestfilterpredicted}
                     </h2>
                     <div className="space-y-2">

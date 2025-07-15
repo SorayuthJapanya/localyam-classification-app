@@ -42,8 +42,14 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use("/api/v1/uploads", express.static(path.join(__dirname, "uploads")));
-
+app.use(
+  "/api/v1/uploads",
+  (req, res, next) => {
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin"); // 👈 สำคัญ!
+    next();
+  },
+  express.static(path.join(__dirname, "uploads"))
+);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1", uploadRoutes);
 app.use("/api/v1/species", speciesRoutes);

@@ -134,7 +134,7 @@ const AdminHomePage = () => {
     <div className="min-h-screen p-6">
       {/* Page Header */}
       <header className="flex flex-col items-center mt-2 mb-10">
-        <h1 className="text-3xl font-bold text-indigo-800">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold text-amber-600">Admin Dashboard</h1>
         <p className="text-gray-600">
           Manage users, species data, and view dashboard analytics.
         </p>
@@ -149,7 +149,7 @@ const AdminHomePage = () => {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div className="bg-indigo-50 p-6 rounded-xl shadow-sm border-l-4 border-indigo-500">
-              <h3 className="text-lg font-medium text-indigo-800 mb-2">
+              <h3 className="text-lg font-medium text-amber-600 mb-2">
                 Total Users
               </h3>
               <p className="text-3xl font-bold text-indigo-900">
